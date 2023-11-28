@@ -93,7 +93,8 @@
 
     
     <!-- Custom styles for this template -->
-    <link href="sign.css" rel="stylesheet">
+    <link href="css/sign.css" rel="stylesheet">
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
   </head>
 
   <body class="d-flex align-items-center py-4 bg-body-tertiary">
@@ -114,24 +115,27 @@
     </svg>
 
 <main class="form-sign w-100 m-auto">
-  <form>
+  <form method="post" action="../php/SignUp.php">
     <h1 class="h3 mb-3 fw-normal">회원가입</h1>
 
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="00000000">
+      <input type="text" class="form-control" id="floatingInput" placeholder="00000000" name="classOf">
       <label for="floatingInput">학번</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="PassWord">
+      <input type="number" class="form-control" id="floatingInput" placeholder="00000000" name="grade">
+      <label for="floatingInput">학년</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="PassWord" name="password">
       <label for="floatingPassword">비밀번호</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword1" placeholder="PassWord">
+      <input type="password" class="form-control" id="floatingPassword1" placeholder="PassWord" name="passwordCheck">
       <label for="floatingPassword">비밀번호 확인</label>
     </div>
-    <button class="btn btn-primary w-100 py-2" type="submit">회원가입</button>
+    <input class="btn btn-primary w-100 py-2" type="submit" value="회원가입">
   </form>
 </main>
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
