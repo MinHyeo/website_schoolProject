@@ -89,6 +89,12 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
+
+      input::-webkit-inner-spin-button {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+      }
     </style>
 
     
@@ -115,15 +121,18 @@
     </svg>
 
 <main class="form-sign w-100 m-auto">
-  <form method="post" action="../php/SignUp.php">
+  <form method="post" action="../php/SignUp.php" target="dummyframe">
     <h1 class="h3 mb-3 fw-normal">회원가입</h1>
-
     <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="00000000" name="classOf">
+      <input type="text" class="form-control" id="floatingInput" placeholder="홍길동" name="name">
+      <label for="floatingInput">이름</label>
+    </div>
+    <div class="form-floating">
+      <input type="number" class="form-control" id="floatingInput" placeholder="00000000" name="classOf">
       <label for="floatingInput">학번</label>
     </div>
     <div class="form-floating">
-      <input type="number" class="form-control" id="floatingInput" placeholder="00000000" name="grade">
+      <input type="number" class="form-control" id="floatingInput" placeholder="0" name="grade">
       <label for="floatingInput">학년</label>
     </div>
     <div class="form-floating">
@@ -136,6 +145,7 @@
     </div>
     <input class="btn btn-primary w-100 py-2" type="submit" value="회원가입">
   </form>
+
 </main>
     </body>
 </html>
