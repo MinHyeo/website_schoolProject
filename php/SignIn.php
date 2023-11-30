@@ -1,21 +1,8 @@
 <?php
     #세션 시작
     include 'inc_head.php';
-
-    #데이터베이스 존재 확인 및 접속
-    $connect = mysqli_connect('localhost', 'root');
-    $db = mysqli_select_db($connect, 'school_db');
-
-    $db = mysqli_select_db($connect, 'school_db');
-
-    if($db){
-        echo "▲ 데이터베이스 선택에 성공했습니다 .... <br><br>";
-    }
-    else{
-        echo "<hr>";
-        echo "▲ 데이터베이스 선택에 실패했습니다 .... <br><br>";
-        exit;
-    }
+    #DB 접속
+    include 'ConnectDB.php';
 
     #테이블 선택 or 생성
     $sql = "select *from student_tbl";
@@ -50,11 +37,12 @@
     }
 
     $sql = "select NAME from student_tbl where SNO=$sno";
-    $name = mysqli_query($connect, $sql);
+    $result = mysqli_query($connect, $sql);
+    $name = mysqli_fetch_assoc($result)['NAME'];
 
     $_SESSION[ 'sno' ] = $sno;
     $_SESSION[ 'password' ] = $password;
-    $_SESSION[ 'name '] = $name;
+    $_SESSION[ 'name' ] = $name;
     
     echo '<script type="text/javascript">';
     echo 'window.location.href="main.php"';

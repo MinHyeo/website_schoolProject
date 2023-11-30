@@ -149,7 +149,7 @@
     <?php
       if ( $jb_login ) {
         echo '<div col-md-3 text_end>
-        <span>환영합니다 </span><B>'.$_SESSION['sno'].'</B><span>님<span>
+        <span>환영합니다 </span><B>'.$_SESSION['name'].'</B><span>님<span>
         <button type="button" class="btn btn-primary" onclick="location.href=\'logout.php\'">Logout</button>
       </div>';
       } else {

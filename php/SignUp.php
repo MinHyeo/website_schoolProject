@@ -1,19 +1,6 @@
 <?php
-    echo "<br><h3>회원가입 정보 확인</h3></br>";
-    echo "<hr>";
-
-    #데이터베이스 존재 확인 및 접속
-    $connect = mysqli_connect('localhost', 'root');
-    $db = mysqli_select_db($connect, 'school_db');
-
-    if($db){
-        echo "▲ 데이터베이스 선택에 성공했습니다 .... <br><br>";
-    }
-    else{
-        echo "<hr>";
-        echo "▲ 데이터베이스 선택에 실패했습니다 .... <br><br>";
-        exit;
-    }
+    #DB접속
+    include 'ConnectDB.php';
 
     #테이블  존재여부 확인 후 없으면 생성
     $sql = "SHOW TABLES LIKE 'student_tbl'";
