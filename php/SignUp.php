@@ -85,7 +85,7 @@
     echo '</script>';
 
     echo '<script type="text/javascript">';
-    echo 'window.location.href = "../blog/main.html"';
+    echo 'window.location.href = "main.php"';
     echo '</script>';
 
     mysqli_close($connect);

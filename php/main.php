@@ -1,3 +1,7 @@
+<?php
+    include 'inc_head.php';
+?>
+
 <!doctype html>
 <html lang="ko" data-bs-theme="auto">
   <head><script src="../assets/js/color-modes.js"></script>
@@ -139,11 +143,23 @@
       <li><a href="#" class="nav-link px-2">시간표조회</a></li>
       <li><a href="Borad.html" class="nav-link px-2">게시판</a></li>
     </ul>
-
-    <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-primary me-2" onclick="location.href='SignIn.html'">Login</button>
-      <button type="button" class="btn btn-primary" onclick="location.href='SignUp.html'">Sign-up</button>
-    </div>
+    
+    <!--로그인을 하면 로그아웃 출력
+        로그인이 안되어 있으면 로그인과 회원가입 출력-->
+    <?php
+      if ( $jb_login ) {
+        echo '<div col-md-3 text_end>
+        <span>환영합니다 </span><B>'.$_SESSION['sno'].'</B><span>님<span>
+        <button type="button" class="btn btn-primary" onclick="location.href=\'logout.php\'">Logout</button>
+      </div>';
+      } else {
+        echo '<div class="col-md-3 text-end">
+        <button type="button" class="btn btn-outline-primary me-2" onclick="location.href=\'../blog/SignIn.html\'">Login</button>
+        <button type="button" class="btn btn-primary" onclick="location.href=\'../blog/SignUp.html\'">Sign-up</button>
+      </div>';
+      }
+    ?>
+    
   </header>
 </div>
 

@@ -1,4 +1,7 @@
 <?php
+    #세션 시작
+    include 'inc_head.php';
+
     #데이터베이스 존재 확인 및 접속
     $connect = mysqli_connect('localhost', 'root');
     $db = mysqli_select_db($connect, 'school_db');
@@ -30,7 +33,7 @@
     $password = $_POST['password'];
 
     #학번이 테이블에 존재하는지 확인
-    $sql = "select *from student_tbl where SNO='$sno'";
+    $sql = "select *from student_tbl where SNO='$sno' and password='$password'";
     $result = mysqli_query($connect, $sql);
     if($result->num_rows == 1){
         echo "아이디 존재<br>";
@@ -46,24 +49,14 @@
         exit;
     }
 
-    #비밀번호가 테이블에 존재하는지 확인
-    $sql = "select *from student_tbl where password='$password'";
-    $result = mysqli_query($connect, $sql);
-    if($result->num_rows == 1){
-        echo "비밀번호 존재<br>";
-    }
-    else{
-        echo '<script type="text/javascript">';
-        echo ' alert("학번 또는 비밀번호가 틀렸습니다.")';
-        echo '</script>';
+    $sql = "select NAME from student_tbl where SNO=$sno";
+    $name = mysqli_query($connect, $sql);
 
-        echo '<script type="text/javascript">';
-        echo ' history.back()';
-        echo '</script>';
-        exit;
-    }
-
+    $_SESSION[ 'sno' ] = $sno;
+    $_SESSION[ 'password' ] = $password;
+    $_SESSION[ 'name '] = $name;
+    
     echo '<script type="text/javascript">';
-    echo 'window.location.href = "../blog/main.html"';
+    echo 'window.location.href="main.php"';
     echo '</script>';
 ?>
