@@ -29,5 +29,41 @@
     $sno = $_POST['classOf'];
     $password = $_POST['password'];
 
+    #학번이 테이블에 존재하는지 확인
+    $sql = "select *from student_tbl where SNO='$sno'";
+    $result = mysqli_query($connect, $sql);
+    if($result->num_rows == 1){
+        echo "아이디 존재<br>";
+    }
+    else{
+        echo '<script type="text/javascript">';
+        echo ' alert("학번 또는 비밀번호가 틀렸습니다.")';
+        echo '</script>';
 
+        echo '<script type="text/javascript">';
+        echo ' history.back()';
+        echo '</script>';
+        exit;
+    }
+
+    #비밀번호가 테이블에 존재하는지 확인
+    $sql = "select *from student_tbl where password='$password'";
+    $result = mysqli_query($connect, $sql);
+    if($result->num_rows == 1){
+        echo "비밀번호 존재<br>";
+    }
+    else{
+        echo '<script type="text/javascript">';
+        echo ' alert("학번 또는 비밀번호가 틀렸습니다.")';
+        echo '</script>';
+
+        echo '<script type="text/javascript">';
+        echo ' history.back()';
+        echo '</script>';
+        exit;
+    }
+
+    echo '<script type="text/javascript">';
+    echo 'window.location.href = "../blog/main.html"';
+    echo '</script>';
 ?>
