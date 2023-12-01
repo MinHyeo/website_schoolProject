@@ -1,6 +1,6 @@
 html,
 body {
-  height: 100%;
+  height: 95%;
 }
 
 .form-sign {
@@ -24,6 +24,11 @@ body {
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.form-sign .form-name h3{
+  display: inline-block;
+  text-align: right;
 }
 
 .form-sign input[type="password"] {
