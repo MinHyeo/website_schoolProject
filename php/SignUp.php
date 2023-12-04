@@ -33,6 +33,18 @@
     $password = $_POST['password'];
     $passwordCheck = $_POST['passwordCheck'];
 
+    #입력되어 있지 않은 입력란 있는지 확인
+    if($sno === "" or $name === "" or $grade === "" or $password === "" or $passwordCheck === ""){
+        echo '<script type="text/javascript">';
+        echo ' alert("입력란이 비어있습니다!")';
+        echo '</script>';
+
+        echo '<script type="text/javascript">';
+        echo ' history.back()';
+        echo '</script>';
+        exit;
+    }
+
     #동일한 학번 존재하는지 확인
     #만약 있으면 다시 로그인 화면으로 되돌리기
     $sql = "select *from student_tbl where SNO='$sno'";

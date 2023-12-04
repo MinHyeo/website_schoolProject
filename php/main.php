@@ -141,7 +141,7 @@
       <li><a href="#" class="nav-link px-2">교육과정</a></li>
       <li><a href="#" class="nav-link px-2">성적관리</a></li>
       <li><a href="#" class="nav-link px-2">시간표조회</a></li>
-      <li><a href="Borad.html" class="nav-link px-2">게시판</a></li>
+      <li><a href="../blog/Borad.php" class="nav-link px-2">게시판</a></li>
     </ul>
     
     <!--로그인을 하면 로그아웃 출력
@@ -219,7 +219,7 @@
       <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">시간표조회</a></li>
       <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">게시판</a></li>
     </ul>
-    <p class="text-center text-body-secondary">&copy; 2023 Company, Inc</p>
+    <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
   </footer>
 </div>
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
