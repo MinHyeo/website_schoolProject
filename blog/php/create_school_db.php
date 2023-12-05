@@ -1,24 +1,20 @@
 <?php
     $connect = mysqli_connect('localhost', 'root');
-    
-    $sql = "CREATE database school_db";
+
+    #테이블들의 구성요소가 확정될 때까지 데이터베이스를 drop, create 반복할 것 같으므로 다시 추가
+    $sql = "CREATE DATABASE school_db";
     mysqli_query($connect, $sql);
-    
+
     mysqli_select_db($connect, "school_db");
     
     #학생 테이블
-    $sql = "CREATE TABLE student_tbl (
+    $sql = "CREATE TABLE student_tbl(
     sno INT PRIMARY KEY NOT NULL,
     name VARCHAR(20),
     grade INT,
     major VARCHAR(20),
-    password VARCHAR(255))
+    password VARCHAR(15))
     DEFAULT CHARSET=UTF8";
-    mysqli_query($connect, $sql);
-
-    #임시 학생정보
-    $sql = "INSERT INTO student_tbl VALUES
-    (20200001, '홍길동', 2, '응용소프트웨어공학', 0000)";
     mysqli_query($connect, $sql);
 
     #과목 테이블
