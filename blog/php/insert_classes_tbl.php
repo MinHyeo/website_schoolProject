@@ -6,9 +6,8 @@
     $connect = mysqli_connect('localhost', 'root');
     $db = mysqli_select_db($connect, 'school_db');
 
-    #$sno = (int)$_SESSION['sno'];
-    $sno = 20200001;    
-
+    $sno = (int)$_SESSION['sno'];
+    
     #2학년 1학기까지의 수업들은 수강한걸로 하고
     #2학년 2학기 수업은 수강신청 페이지에서 신청하기
 

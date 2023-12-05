@@ -8,7 +8,7 @@
         echo '</script>';
 
         echo '<script type="text/javascript">';
-        echo 'window.location.href = "main.php"';
+        echo 'window.location.href = "../main.php"';
         echo '</script>';
       } else {
         echo '<h1>로그인 상태가 아닙니다.</h1>';

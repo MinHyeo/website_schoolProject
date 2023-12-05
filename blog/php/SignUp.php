@@ -76,7 +76,7 @@
     #만약 이상 없다면 회원가입
     #레코드 삽입
     $sql = "INSERT INTO student_tbl VALUES
-            ('$sno', '$name', '$grade', '$password')";
+            ('$sno', '$name', '$grade', '응용소프트웨어공학과', '$password')";
     $result = mysqli_query($connect, $sql); 
 
     echo '<script type="text/javascript">';
@@ -84,7 +84,7 @@
     echo '</script>';
 
     echo '<script type="text/javascript">';
-    echo 'window.location.href = "main.php"';
+    echo 'window.location.href = "../main.php"';
     echo '</script>';
 
     mysqli_close($connect);

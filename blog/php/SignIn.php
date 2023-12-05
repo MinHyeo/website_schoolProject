@@ -45,6 +45,6 @@
     $_SESSION[ 'name' ] = $name;
     
     echo '<script type="text/javascript">';
-    echo 'window.location.href="main.php"';
+    echo 'window.location.href="../main.php"';
     echo '</script>';
 ?>
