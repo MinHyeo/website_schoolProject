@@ -32,13 +32,13 @@
     $passwordCheck = $_POST['passwordCheck'];
 
     #입력되어 있지 않은 입력란 있는지 확인
-    if($sno === "" or $name === "" or $grade === "" or $password === "" or $passwordCheck === ""){
+    if($sno === "" or $name === "" or $password === "" or $passwordCheck === "") {
         echo '<script type="text/javascript">';
-        echo ' alert("입력란이 비어있습니다!")';
+        echo 'alert("입력란이 비어있습니다!")';
         echo '</script>';
 
         echo '<script type="text/javascript">';
-        echo ' history.back()';
+        echo 'history.back()';
         echo '</script>';
         exit;
     }
@@ -47,26 +47,26 @@
     #만약 있으면 다시 로그인 화면으로 되돌리기
     $sql = "select *from student_tbl where SNO='$sno'";
     $result = mysqli_query($connect, $sql);
-    if($result->num_rows > 0){
+    if($result->num_rows > 0) {
         echo '<script type="text/javascript">';
-        echo ' alert("계정이 존재하는 학번입니다.")';
+        echo 'alert("계정이 존재하는 학번입니다.")';
         echo '</script>';
 
         echo '<script type="text/javascript">';
-        echo ' history.back()';
+        echo 'history.back()';
         echo '</script>';
         exit;
     }
     
     #비밀번호, 비밀번호 확인 비교
     #만약 틀리면 틀렸다고 알려주고 페이지 돌려보내기
-    if(!($password === $passwordCheck)){
+    if(!($password === $passwordCheck)) {
         echo '<script type="text/javascript">';
-        echo ' alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.")';
+        echo 'alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.")';
         echo '</script>';
 
         echo '<script type="text/javascript">';
-        echo ' history.back()';
+        echo 'history.back()';
         echo '</script>';
         exit;
     }
@@ -74,11 +74,11 @@
     #만약 이상 없다면 회원가입
     #레코드 삽입
     $sql = "INSERT INTO student_tbl VALUES
-            ('$sno', '$name', '응용소프트웨어공학과', '$password')";
-    $result = mysqli_query($connect, $sql); 
+    ($sno, '$name', '응용소프트웨어공학과', '$password')";
+    mysqli_query($connect, $sql); 
 
     echo '<script type="text/javascript">';
-    echo ' alert("정상적으로 회원가입 되었습니다.")';
+    echo 'alert("정상적으로 회원가입 되었습니다.")';
     echo '</script>';
 
     echo '<script type="text/javascript">';
