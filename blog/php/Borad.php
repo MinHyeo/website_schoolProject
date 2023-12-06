@@ -8,19 +8,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" href="css/Board.css">
+    <link href="css/Board.css" rel="stylesheet">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-    <link rel="stylesheet" href="../assets/dist/css/bootstrap.min.css">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .left {
-            text-align :left;
+        .left{
+            text-align:left;
         }
-        .right {
-            text-align :right;
+        .right{
+            text-align:right;
         }
-        .center {
-            text-align :center;
+        .center{
+            text-align:center;
         }
     </style>
 </head>
@@ -42,19 +42,19 @@
         <!--로그인을 하면 로그아웃 출력
             로그인이 안되어 있으면 로그인과 회원가입 출력-->
         <?php
-            if ($jb_login) {
-                echo "<div col-md-3 text_end>
-                <span>환영합니다 <B>".$_SESSION['name']."</B>님</span>
-                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\"logout.php\"\">Logout</button>
-                </div>";
-            }
-            else {
-                echo "<div class=\"col-md-3 text-end\">
-                <button type=\"button\" class=\"btn btn-outline-primary me-2\" onclick=\"location.href=\"../blog/SignIn.html\"\">Login</button>
-                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\"../blog/SignUp.html\"\">Sign-up</button>
-                </div>";
-            }
-        ?>        
+        if ( $jb_login ) {
+            echo '<div col-md-3 text_end>
+            <span>환영합니다 </span><B>'.$_SESSION['name'].'</B><span>님<span>
+            <button type="button" class="btn btn-primary" onclick="location.href=\'logout.php\'">Logout</button>
+        </div>';
+        } else {
+            echo '<div class="col-md-3 text-end">
+            <button type="button" class="btn btn-outline-primary me-2" onclick="location.href=\'../blog/SignIn.html\'">Login</button>
+            <button type="button" class="btn btn-primary" onclick="location.href=\'../blog/SignUp.html\'">Sign-up</button>
+        </div>';
+        }
+        ?>
+        
     </header>
     </div>
 
@@ -98,16 +98,16 @@
     </div>
 
     <div class="container">
-        <footer class="py-3 my-4">
-            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">교육과정</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">성적관리</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">시간표조회</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">게시판</a></li>
-            </ul>
-            <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
-        </footer>
-    </div>
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">교육과정</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">성적관리</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">시간표조회</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">게시판</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
+  </footer>
+</div>
 </body>
 </html>

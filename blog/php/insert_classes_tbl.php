@@ -1,6 +1,5 @@
 <?php
     include 'inc_head.php';
-
     include 'ConnectDB.php';
 
     $sno = (int)$_SESSION['sno'];
@@ -10,101 +9,76 @@
 
     #1-1
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100108, 2020, 1)";
+    ($sno, 100108, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100110, 2020, 1)";
+    ($sno, 100110, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100111, 2020, 1)";
+    ($sno, 100111, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100129, 2020, 1)";
+    ($sno, 100129, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 300129, 2020, 1)";
+    ($sno, 300129, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 200828, 2020, 1)";
+    ($sno, 200828, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 400506, 2020, 1)";
+    ($sno, 400506, 1, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 401428, 2020, 1)";
+    ($sno, 401428, 1, 1)";
     mysqli_query($connect, $sql);
     #1-2
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100030, 2020, 2)";
+    ($sno, 100030, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100112, 2020, 2)";
+    ($sno, 100112, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100120, 2020, 2)";
+    ($sno, 100120, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100128, 2020, 2)";
+    ($sno, 100128, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 300274, 2020, 2)";
+    ($sno, 300274, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 200850, 2020, 2)";
+    ($sno, 200850, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 400346, 2020, 2)";
+    ($sno, 400346, 1, 2)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 401429, 2020, 2)";
+    ($sno, 401429, 1, 2)";
     mysqli_query($connect, $sql);
     #2-1
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100113, 2023, 1)";
+    ($sno, 100113, 2, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 400650, 2023, 1)";
+    ($sno, 400650, 2, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 401154, 2023, 1)";
+    ($sno, 401154, 2, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 500845, 2023, 1)";
+    ($sno, 500845, 2, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 501976, 2023, 1)";
+    ($sno, 501976, 2, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 505511, 2023, 1)";
+    ($sno, 505511, 2, 1)";
     mysqli_query($connect, $sql);
     $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 509446, 2023, 1)";
+    ($sno, 509446, 2, 1)";
     mysqli_query($connect, $sql);
-
-    /*
-    #2-2
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 100114, 2023, 2)";
-    mysqli_query($connect, $sql);
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 300059, 2023, 2)";
-    mysqli_query($connect, $sql);
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 500111, 2023, 2)";
-    mysqli_query($connect, $sql);
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 501100, 2023, 2)";
-    mysqli_query($connect, $sql);
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 503872, 2023, 2)";
-    mysqli_query($connect, $sql);
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 505514, 2023, 2)";
-    mysqli_query($connect, $sql);
-    $sql = "INSERT INTO classes_tbl VALUES
-    ($sno, 509447, 2023, 2)";
-    mysqli_query($connect, $sql);
-    */
     
     if(is_resource($connect)) {
         mysqli_close($connect);

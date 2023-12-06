@@ -11,7 +11,6 @@
     $sql = "CREATE TABLE student_tbl(
     sno INT PRIMARY KEY NOT NULL,
     name VARCHAR(20),
-    grade INT,
     major VARCHAR(20),
     password VARCHAR(15))
     DEFAULT CHARSET=UTF8";
@@ -374,7 +373,7 @@
     $sql = "CREATE TABLE classes_tbl (
     sno INT NOT NULL,
     code INT NOT NULL,
-    year INT,
+    grade INT,
     semester INT)
     DEFAULT CHARSET=UTF8";
     mysqli_query($connect, $sql);

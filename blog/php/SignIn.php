@@ -7,7 +7,7 @@
     #테이블 선택 or 생성
     $sql = "SELECT * FROM student_tbl";
     $result = mysqli_query($connect, $sql);
-    if($result){
+    if($result) {
         echo "테이블이 존재합니다<br>";
     }
     else {
@@ -25,14 +25,14 @@
     if($result->num_rows == 1) {
         echo "아이디 존재<br>";
     }
-    else {
-        echo "<script type=\"text/javascript\">";
-        echo "alert(\"학번 또는 비밀번호가 틀렸습니다.\")";
-        echo "</script>";
+    else{
+        echo '<script type="text/javascript">';
+        echo 'alert("학번 또는 비밀번호가 틀렸습니다.")';
+        echo '</script>';
 
-        echo "<script type=\"text/javascript\">";
-        echo "history.back()";
-        echo "</script>";
+        echo '<script type="text/javascript">';
+        echo 'history.back()';
+        echo '</script>';
         exit;
     }
 

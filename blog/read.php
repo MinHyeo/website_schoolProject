@@ -1,5 +1,10 @@
 <?php
-    include 'php/inc_head.php'
+    include 'php/inc_head.php';
+    include 'php/ConnectDB.php';
+    $num = $_GET['num'];
+    $sql = "select *from board_tbl where NUM={$num}";
+    $result = mysqli_query($connect, $sql);
+    $board= mysqli_fetch_array($result);
 ?>
 
 <!DOCTYPE html>
@@ -7,11 +12,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글쓰기</title>
+    <?php
+        echo '<title>'.$board['TITLE'].'</title>';
+    ?>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/Board.css">
+    <link rel="stylesheet" href="css/board.css">
+    <style>
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -49,26 +65,21 @@
 
     <div class="form-board m-auto">
         <main>
-            <div id="board_write">
+            <div id="board_read">
+                <h2><?php echo $board['TITLE']; ?></h2>
+                <div align=right>
+                    <?php echo $board['NAME']; ?> <?php echo $board['DATE']; ?>
+                    <div id="bo_line"></div>
+                </div>
+                <hr>
+
                 <div>
-                    <h1 class="left">글쓰기</h1>
+                    <?php echo nl2br("$board[CONTENT]"); ?>
                     <hr>
                 </div>
-                <div class=".board-write">
-                    <form action="php/WriteDB.php" method="post">
-                        <div class="in-title">
-                            <textarea name="title" placeholder="제목" maxlength="100" required></textarea>
-                        </div>
-    
-                        <div class="wi_line"></div>
-                        <div class="in_content">
-                            <textarea name="content" placeholder="내용" required></textarea>
-                        </div>
-    
-                        <div>
-                            <input type="submit" class="button-gray" value="글 작성">
-                        </div>
-                    </form>
+                
+                <div class="button">
+                    <span><input type="button" class="button-gray" value="목록으로" onclick="location.href='Board.php'"></span>
                 </div>
             </div>
         </main>
@@ -89,3 +100,8 @@
     </div>
 </body>
 </html>
+<?php
+    if(is_resource($connect)) {
+        mysqli_close($connect);
+    }
+?>

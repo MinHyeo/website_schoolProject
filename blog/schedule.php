@@ -3,41 +3,40 @@
     include 'php/ConnectDB.php';
 
     if (!isset($_SESSION['sno'])) {
-        echo "<script type=\"text/javascript\">";
-        echo "alert(\"로그인을 해주세요.\")";
-        echo "</script>";
-        echo "<script>window.history.back()</script>";
+        echo '<script>alert("로그인을 해주세요.")</script>';
+        echo '<script>window.history.back()</script>';
         exit;
     }
+    
     $sno = $_SESSION['sno'];
     
-    #시간표 페이지에 처음 들어오거나 수강신청을 하고 오면 마지막으로 수강한 년도와 학기가 선택 및 조회
-    if (!isset($_POST['year']) && !isset($_POST['semester'])) {
-        #학생이 마지막으로 수강한 년도
-        $sql = "SELECT max(year)
-        AS max_year
+    #시간표 페이지에 처음 들어오거나 수강신청을 하고 오면 마지막으로 수강한 학년와 학기가 선택 및 조회
+    if (!isset($_SESSION['grade']) && !isset($_SESSION['semester'])) {
+        #학생이 마지막으로 수강한 학년
+        $sql = "SELECT max(grade)
+        AS max_grade
         FROM classes_tbl
         WHERE sno = $sno";
         $result = mysqli_query($connect, $sql);
-        $latestYear = (int)mysqli_fetch_assoc($result)['max_year'];
+        $latestGrade = mysqli_fetch_assoc($result)['max_grade'];
 
-        $year = (int)$latestYear;
+        $grade = (int)$latestGrade;
     
         #학생이 마지막으로 수강한 학기
         $sql = "SELECT max(semester)
         AS max_semester
         FROM classes_tbl
         WHERE sno = $sno
-        AND year = $latestYear";
+        AND grade = $latestGrade";
         $result = mysqli_query($connect, $sql);
         $latestSemesters = mysqli_fetch_assoc($result);
-        $latestSemester = (int)$latestSemesters['max_semester'];
+        $latestSemester = $latestSemesters['max_semester'];
 
         $semester = (int)$latestSemester;
     }
     else {
-        $year = (int)$_POST['year'];
-        $semester = (int)$_POST['semester'];
+        $grade = (int)$_SESSION['grade'];
+        $semester = (int)$_SESSION['semester'];
     }
 ?>
 
@@ -66,17 +65,16 @@
             <!--로그인을 하면 로그아웃 출력
                 로그인이 안되어 있으면 로그인과 회원가입 출력-->
             <?php
-                if ($jb_login) {
-                echo "<div col-md-3 text_end>
-                <span>환영합니다 <B>".$_SESSION['name']."</B>님</span>
-                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href='php/logout.php'\">Logout</button>
-                </div>";
-                }
-                else {
-                echo "<div class=\"col-md-3 text-end\">
-                <button type=\"button\" class=\"btn btn-outline-primary me-2\" onclick=\"location.href='../blog/SignIn.html'\">Login</button>
-                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href='SignUp.html'\">Sign-up</button>
-                </div>";
+            if ( $jb_login ) {
+                echo '<div col-md-3 text_end>
+                <span>환영합니다 </span><B>'.$_SESSION['name'].'</B><span>님<span>
+                <button type="button" class="btn btn-primary" onclick="location.href=\'php/logout.php\'">Logout</button>
+                </div>';
+                } else {
+                echo '<div class="col-md-3 text-end">
+                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href=\'../blog/SignIn.html\'">Login</button>
+                <button type="button" class="btn btn-primary" onclick="location.href=\'SignUp.html\'">Sign-up</button>
+                </div>';
                 }
             ?>
         </header>
@@ -84,7 +82,7 @@
 
     <div id=schedule>
         <div id="title"><h3>개인시간표 조회</h3></div>
-        <form method=POST action="# ">
+        <form method=post action="php/schedule_action.php">
             <table id="condition">
                 <tbody>
                     <tr>
@@ -92,21 +90,21 @@
                         <?php
                             echo "<td><input type=\"number\" name=\"student_code\" value=\"$sno\" disabled=\"disabled\"></td>";
                         ?>
-                        <th><label for="year">년도</label></th>
+                        <th><label for="grade">학년</label></th>
                         <td>
-                            <select name="year">
+                            <select name="grade">
                                 <?php
-                                    #학생이 수강한 년도들
-                                    $sql = "select year
+                                    #학생이 수강한 학년들
+                                    $sql = "select grade
                                     from classes_tbl
                                     where sno = $sno
-                                    group by year";
+                                    group by grade";
                                     $result = mysqli_query($connect, $sql);
-                                    #학생이 수강한 년도들을 <option>에 나열
-                                    while ($years = mysqli_fetch_assoc($result)) {
+                                    #학생이 수강한 학년들을 <option>에 나열
+                                    while ($grades = mysqli_fetch_assoc($result)) {
                                         #마지막으로 조회한 옵션이 선택되어있음
-                                        $selected = ($year == (int)$years['year']) ? 'selected' : '';
-                                        echo "<option $selected>".($years['year'])."</option>";
+                                        $selected = ($grade == (int)$grades['grade']) ? 'selected' : '';
+                                        echo "<option $selected>".($grades['grade'])."</option>";
                                     }
                                 ?>
                             </select>
@@ -123,14 +121,14 @@
                                 ?>
                             </select>
                         </td>
-                        <td><button type="submit">조회</td>
+                        <td><button type="submit">조회</button></td>
                     </tr>
                 </tbody>
             </table>
         </form>
         <div id="schedule_info">
             <?php
-                echo "<h2>{$year}학년도 {$semester}학기 시간표</h2>"
+                echo "<h2>{$grade}학년 {$semester}학기 시간표</h2>"
             ?>
         </div>
         <table id="time_table">
@@ -154,7 +152,7 @@
                             FROM subject_tbl, classes_tbl, schedule_tbl
                             WHERE subject_tbl.code = classes_tbl.code
                             AND classes_tbl.sno = $sno
-                            AND classes_tbl.year = $year
+                            AND classes_tbl.grade = $grade
                             AND classes_tbl.semester = $semester
                             AND classes_tbl.code = schedule_tbl.code
                             AND schedule_tbl.day = $j
@@ -190,4 +188,7 @@
     if(is_resource($connect)) {
         mysqli_close($connect);
     }
+    #시간표 페이지에 처음 들어오거나 수강신청을 하고 오면 마지막으로 수강한 학년와 학기가 선택 및 조회 (2)
+    $_SESSION['grade'] = NULL;
+    $_SESSION['semester'] = NULL;
 ?>
