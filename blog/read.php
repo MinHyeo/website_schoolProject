@@ -100,3 +100,8 @@
     </div>
 </body>
 </html>
+<?php
+    if(is_resource($connect)) {
+        mysqli_close($connect);
+    }
+?>

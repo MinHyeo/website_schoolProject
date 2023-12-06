@@ -13,7 +13,6 @@
         $sql = "create table student_tbl(
             SNO int primary key NOT NULL,
             NAME varchar(20),
-            GRADE int,
             password varchar(15) )
             default charset=utf8 ";
         $result = mysqli_query($connect, $sql);
@@ -29,7 +28,6 @@
     #회원가입 정보 불러오기
     $sno = $_POST['classOf'];
     $name = $_POST['name'];
-    $grade = $_POST['grade'];
     $password = $_POST['password'];
     $passwordCheck = $_POST['passwordCheck'];
 
@@ -76,7 +74,7 @@
     #만약 이상 없다면 회원가입
     #레코드 삽입
     $sql = "INSERT INTO student_tbl VALUES
-            ('$sno', '$name', '$grade', '응용소프트웨어공학과', '$password')";
+            ('$sno', '$name', '응용소프트웨어공학과', '$password')";
     $result = mysqli_query($connect, $sql); 
 
     echo '<script type="text/javascript">';
