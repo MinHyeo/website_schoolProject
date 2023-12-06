@@ -2,21 +2,30 @@
     include 'php/inc_head.php';
     include 'php/ConnectDB.php';
 
+<<<<<<< HEAD
     $sno = (int)$_SESSION['sno'];
+=======
+    if (!isset($_SESSION['sno'])) {
+        echo "<script type=\"text/javascript\">";
+        echo "alert(\"로그인을 해주세요.\")";
+        echo "</script>";
+        echo "<script>window.history.back()</script>";
+        exit;
+    }
+    $sno = $_SESSION['sno'];
+>>>>>>> DanielHan0117
 
     $year = 2023;
     $semester = 2;
     
     #수강신청 테이블(subjectcsToRegister_tbl)에 $sno 학번이 있는지 확인해서 $sno 학생이 수강신청 페이지에 처음 들어왔는지 확인
-    $sql = "SELECT COUNT(*)
+    $sql = "SELECT *
     FROM subjectsToRegister_tbl
-    WHERE sno = $sno";
+    WHERE sno=$sno";
     $result = mysqli_query($connect, $sql);
-    $rows = mysqli_fetch_assoc($result);    
-    $count = (int)$rows['COUNT(*)'];
 
     #수강신청 페이지에 $sno 학생이 처음 들어왔다면 아직 듣지 않은 과목들을 출력
-    if ($count == 0) {
+    if ($result->num_rows == 0) {
         $sql = "SELECT subject_tbl.code
         FROM subject_tbl
         WHERE subject_tbl.code NOT IN (
@@ -83,6 +92,7 @@
 
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
     <head>
         <title>수강 신청</title>
         <link rel="stylesheet" href="css/registeration.css">
@@ -122,6 +132,48 @@
             </header>
         </div>  
 
+=======
+<head>
+    <title>수강 신청</title>
+    <link rel="stylesheet" href="../assets/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/registeration.css">
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <div class="col-md-3 mb-2 mb-md-0">
+            </div>
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="#" class="nav-link px-2">교육과정</a></li>
+            <li><a href="#" class="nav-link px-2">성적관리</a></li>
+            <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
+            <li><a href="registeration.php" class="nav-link px-2">수강신청</a></li>
+            <li><a href="Borad.html" class="nav-link px-2">게시판</a></li>
+            </ul>
+            
+            <!--로그인을 하면 로그아웃 출력
+                로그인이 안되어 있으면 로그인과 회원가입 출력-->
+            <?php
+                if ($jb_login) {
+                echo "<div col-md-3 text_end>
+                <span>환영합니다 <B>".$_SESSION['name']."</B>님</span>
+                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href='php/logout.php'\">Logout</button>
+                </div>";
+                }
+                else {
+                echo "<div class=\"col-md-3 text-end\">
+                <button type=\"button\" class=\"btn btn-outline-primary me-2\" onclick=\"location.href='../blog/SignIn.html'\">Login</button>
+                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href='SignUp.html'\">Sign-up</button>
+                </div>";
+                }
+            ?>
+        </header>
+    </div>  
+
+    <div id="registeration">
+>>>>>>> DanielHan0117
         <div id="title"><h3>수강 신청</h3></div>
         <form method=POST action="#.php">
             <table id="condition">
@@ -165,10 +217,10 @@
                         $result = mysqli_query($connect, $sql);
 
                         while ($subjects = mysqli_fetch_assoc($result)) {
-                            echo "<tr><td class=\"code\">".($subjects['code'])."</td>";
-                            echo "<td class=\"subject_name\">".($subjects['subject_name'])."</td>";
-                            echo "<td class=\"professor\">".($subjects['professor'])."</td>";
-                            echo "<td class=\"credit\">".($subjects['credit'])."</td>";
+                            echo "<tr><td class=\"code\">".$subjects['code']."</td>";
+                            echo "<td class=\"subject_name\">".$subjects['subject_name']."</td>";
+                            echo "<td class=\"professor\">".$subjects['professor']."</td>";
+                            echo "<td class=\"credit\">".$subjects['credit']."</td>";
                             echo "<td class=\"select\"><button type=\"submit\" name=\"select_code\" value=".$subjects['code'].">선택</td></tr>";
                         }
                     ?>
@@ -206,6 +258,7 @@
                 </tbody>
             </table>
         </form>
+<<<<<<< HEAD
 
         <div class="container">
         <footer class="py-3 my-4">
@@ -221,6 +274,24 @@
         </footer>
         </div>
     </body>
+=======
+    </div>
+
+    <div class="container">
+    <footer class="py-3 my-4">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="main.php" class="nav-link px-2 text-body-secondary">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">교육과정</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">성적관리</a></li>
+        <li class="nav-item"><a href="schedule.php" class="nav-link px-2 text-body-secondary">시간표조회</a></li>
+        <li class="nav-item"><a href="registeration.php" class="nav-link px-2 text-body-secondary">수강신청</a></li>
+        <li class="nav-item"><a href="Board.php" class="nav-link px-2 text-body-secondary">게시판</a></li>
+        </ul>
+        <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
+    </footer>
+    </div>
+</body>
+>>>>>>> DanielHan0117
 </html>
 
 <?php

@@ -1,10 +1,13 @@
 <?php
-    #include 'inc_head.php';
-    session_start();
+    include 'inc_head.php';
 
+<<<<<<< HEAD
     #include 'ConnectDB.php';
     $connect = mysqli_connect('localhost', 'root');
     $db = mysqli_select_db($connect, 'school_db');
+=======
+    include 'ConnectDB.php';
+>>>>>>> DanielHan0117
 
     $sno = (int)$_SESSION['sno'];
     
@@ -112,6 +115,4 @@
     if(is_resource($connect)) {
         mysqli_close($connect);
     }
-    
-    echo "<script>window.history.back()</script>";
 ?>
