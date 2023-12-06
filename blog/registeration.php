@@ -110,7 +110,7 @@
                 <li><a href="#" class="nav-link px-2">성적관리</a></li>
                 <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
                 <li><a href="registeration.php" class="nav-link px-2">수강신청</a></li>
-                <li><a href="Board.php" class="nav-link px-2">게시판</a></li>
+                <li><a href="Borad.html" class="nav-link px-2">게시판</a></li>
                 </ul>
                 
                 <!--로그인을 하면 로그아웃 출력
