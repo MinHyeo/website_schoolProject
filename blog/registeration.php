@@ -3,13 +3,15 @@
     include 'php/ConnectDB.php';
 
     if (!isset($_SESSION['sno'])) {
-        echo '<script>alert("로그인을 해주세요.")</script>';
-        echo '<script>window.history.back()</script>';
+        echo "<script type=\"text/javascript\">";
+        echo "alert(\"로그인을 해주세요.\")";
+        echo "</script>";
+        echo "<script>window.history.back()</script>";
         exit;
     }
-    
     $sno = $_SESSION['sno'];
-    $grade = 2;
+
+    $year = 2023;
     $semester = 2;
     
     #수강신청 테이블(subjectcsToRegister_tbl)에 $sno 학번이 있는지 확인해서 $sno 학생이 수강신청 페이지에 처음 들어왔는지 확인
@@ -33,6 +35,53 @@
             $sql = "INSERT INTO subjectsToRegister_tbl VALUES
             ($sno, $code, 0)";
             mysqli_query($connect, $sql);
+        }
+    }
+    else {
+        #수강신청 가능한 과목들 중에서 '선택' 버튼을 누르면 해당 과목을 선택 상태로 변경
+        if ($_POST['select_code']) {
+            $code = $_POST['select_code'];
+            $sql = "UPDATE subjectsToRegister_tbl
+            SET selected = 1
+            WHERE sno = $sno
+            AND code = $code";
+            mysqli_query($connect, $sql);
+            
+            $_POST['select_code'] = NULL;
+        }
+        #수강신청 선택된 과목들 중에서 '해제' 버튼을 누르면 해당 과목을 선택해제 상태로 변경
+        if ($_POST['unselect_code']) {
+            $code = $_POST['unselect_code'];
+            $sql = "UPDATE subjectsToRegister_tbl
+            SET selected = 0
+            WHERE sno = $sno
+            AND code = $code";
+            mysqli_query($connect, $sql);
+            
+            $_POST['unselect_code'] = NULL;
+        }
+
+        #'신청' 버튼을 누르면 선택 상태인 과목들을 수강과목 테이블(classes_tbl)에 추가하고 수강신청 테이블에서 제거
+        if ($_POST['register']) {
+            $sql = "SELECT code
+            FROM subjectsToRegister_tbl
+            WHERE sno = $sno
+            AND selected = 1";
+            $result = mysqli_query($connect, $sql);
+            while ($subjects = mysqli_fetch_assoc($result)) {
+                $code = $subjects['code'];
+                $sql = "INSERT INTO classes_tbl VALUES
+                ($sno, $code, $year, $semester)";
+                mysqli_query($connect, $sql);
+
+                $sql = "DELETE
+                FROM subjectsToRegister_tbl
+                WHERE sno = $sno
+                AND code = $code";
+                mysqli_query($connect, $sql);
+            }
+
+            $_POST['register'] = NULL;
         }
     }
 ?>
@@ -62,16 +111,17 @@
             <!--로그인을 하면 로그아웃 출력
                 로그인이 안되어 있으면 로그인과 회원가입 출력-->
             <?php
-            if ( $jb_login ) {
-                echo '<div col-md-3 text_end>
-                <span>환영합니다 </span><B>'.$_SESSION['name'].'</B><span>님<span>
-                <button type="button" class="btn btn-primary" onclick="location.href=\'php/logout.php\'">Logout</button>
-                </div>';
-                } else {
-                echo '<div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href=\'../blog/SignIn.html\'">Login</button>
-                <button type="button" class="btn btn-primary" onclick="location.href=\'SignUp.html\'">Sign-up</button>
-                </div>';
+                if ($jb_login) {
+                echo "<div col-md-3 text_end>
+                <span>환영합니다 <B>".$_SESSION['name']."</B>님</span>
+                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href='php/logout.php'\">Logout</button>
+                </div>";
+                }
+                else {
+                echo "<div class=\"col-md-3 text-end\">
+                <button type=\"button\" class=\"btn btn-outline-primary me-2\" onclick=\"location.href='../blog/SignIn.html'\">Login</button>
+                <button type=\"button\" class=\"btn btn-primary\" onclick=\"location.href='SignUp.html'\">Sign-up</button>
+                </div>";
                 }
             ?>
         </header>
@@ -79,30 +129,21 @@
 
     <div id="registeration">
         <div id="title"><h3>수강 신청</h3></div>
-        <form method=post action="php/registeration_action.php">
+        <form method=POST action="#.php">
             <table id="condition">
                 <tbody>
                     <tr>
                         <th><label>학번</label></th>
                         <?php
-                            echo "<td>
-                            <input type=\"number\" value=\"$sno\" disabled>
-                            <input name=\"sno\" value=$sno hidden>
-                            </td>";
+                            echo "<td><input type=\"number\" value=\"$sno\" disabled=\"disabled\"></td>";
                         ?>
-                        <th><label>학년</label></th>
+                        <th><label>년도</label></th>
                         <?php
-                            echo "<td>
-                            <input type=\"number\" value=\"$grade\" disabled>
-                            <input name=\"grade\" value=$grade hidden>
-                            </td>";
+                            echo "<td><input type=\"number\" value=\"$year\" disabled=\"disabled\"></td>";
                         ?>
                         <th><label>학기</label></th>
                         <?php
-                            echo "<td>
-                            <input type=\"number\" value=\"$semester\" disabled>
-                            <input name=\"semester\" value=$semester hidden>
-                            </td>";
+                            echo "<td><input type=\"number\" value=\"$semester\" disabled=\"disabled\"></td>";
                         ?>
                         <td><button type="submit" name="register" value=True>신청</td>
                     </tr>
@@ -111,6 +152,7 @@
             <div class="subjects_info">
                 <h2>수강신청 가능한 과목</h2>
             </div>
+            
             <table class="subjects">
                 <tbody>
                     <tr>

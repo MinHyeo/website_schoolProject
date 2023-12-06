@@ -8,8 +8,8 @@ body {
 }
 
 #title {
-    border-bottom: 1px solid #e0e0e0;
     height: 40px;
+    border-bottom: 1px solid #e0e0e0;
 }
 #title > h3 {
     line-height: 40px;
@@ -45,6 +45,7 @@ body {
     cursor: not-allowed;
 }
 #condition > tbody > tr > td > select {
+    padding: 0 4px;
     width: 100%;
 }
 #condition > tbody > tr > td > button {
@@ -57,7 +58,7 @@ body {
 
 #schedule_info {
     margin: 2% auto;
-    width: 282px;
+    width: 280px;
 }
 
 #time_table {
@@ -74,7 +75,6 @@ body {
 }
 #time_table > tbody > tr:nth-child(1) > th {
     background-color: darkgray;
-    text-align: center;
 }
 #time_table > tbody > tr > td:nth-child(1) {
     background-color: darkgray;

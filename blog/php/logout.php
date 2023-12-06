@@ -4,7 +4,7 @@
     if ( $jb_login ) {
         session_destroy();
         echo '<script type="text/javascript">';
-        echo 'alert("정상적으로 로그아웃 되었습니다.")';
+        echo ' alert("정상적으로 로그아웃 되었습니다.")';
         echo '</script>';
 
         echo '<script type="text/javascript">';
