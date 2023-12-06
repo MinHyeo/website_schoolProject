@@ -12,11 +12,7 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.115.4">
     <title>응용소프트웨어 정보</title>
-
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
-
-    
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
 
 <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -137,7 +133,7 @@
     </div>
 
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+      <li><a href="main.php" class="nav-link px-2 link-secondary">Home</a></li>
       <li><a href="#" class="nav-link px-2">교육과정</a></li>
       <li><a href="#" class="nav-link px-2">성적관리</a></li>
       <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
