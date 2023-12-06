@@ -1,20 +1,40 @@
 <?php
-    include 'php/inc_head.php'
+    include 'php/inc_head.php';
+    include 'php/ConnectDB.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>글쓰기</title>
+    <title>게시판</title>
+    <link href="css/Board.css" rel="stylesheet">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/blog/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/Board.css">
+    <style>
+        .left{
+            text-align:left;
+        }
+        .right{
+            text-align:right;
+        }
+        .center{
+            text-align:center;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        a:hover{
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
-<div class="container">
+    <div class="container">
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
         <div class="col-md-3 mb-2 mb-md-0">
         </div>
@@ -49,28 +69,45 @@
 
     <div class="form-board m-auto">
         <main>
-            <div id="board_write">
-                <div>
-                    <h1 class="left">글쓰기</h1>
-                    <hr>
-                </div>
-                <div class=".board-write">
-                    <form action="php/WriteDB.php" method="post">
-                        <div class="in-title">
-                            <textarea name="title" placeholder="제목" maxlength="100" required></textarea>
-                        </div>
-    
-                        <div class="wi_line"></div>
-                        <div class="in_content">
-                            <textarea name="content" placeholder="내용" required></textarea>
-                        </div>
-    
-                        <div>
-                            <input type="submit" class="button-gray" value="글 작성">
-                        </div>
-                    </form>
-                </div>
+            <div>
+                <h1 class="left">자유게시판</h1>
+                <hr>
             </div>
+            <div>
+                <!--데이터베이스에서 게시판 내용 불러서 페이지에 출력-->
+                <?PHP
+                    echo '<table class="board-table">';
+                    $sql = "select *from board_tbl ORDER BY DATE DESC";
+                    $result = mysqli_query($connect, $sql);
+                    $index = 1;
+                    $sql = "select *from board_tbl";
+                    echo '<tr>
+                        <th class="center">번호</th>
+                        <th class="left">제목</th>
+                        <th class="center">글쓴이</th>
+                        <th class="center">일시</th>
+                        </tr>';
+                    while($row = mysqli_fetch_array($result)){
+                        echo '<tr>
+                            <td class="center">'.$row['NUM'].'</td>
+                            <td class="left"><a href="read.php?num='.$row['NUM'].'">'.$row['TITLE'].'</a></td>
+                            <td class="center">'.$row['NAME'].'</td>
+                            <td class="center">'.$row['DATE'].'</td>
+                            </tr>';
+                        $index = $index + 1;
+                    }
+                    echo '</table>';
+                    mysqli_close($connect);
+                ?>
+            </div>
+            <?php
+                echo "<br>";
+                if($jb_login){
+                    echo '<div class="button">
+                    <span><input type="button" class="button-gray" value="글쓰기" onclick="location.href=\'Write.php\'"></span>
+                    </div>';
+                }
+            ?>
         </main>
     </div>
 
