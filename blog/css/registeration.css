@@ -9,7 +9,6 @@
 
 #title {
     height: 40px;
-    border-bottom: 1px solid #e0e0e0;
 }
 #title > h3 {
     line-height: 40px;
@@ -58,7 +57,6 @@
 }
 
 .subjects {
-    border: 1px solid black;
     border-collapse: collapse;
     width: 100%;
 }
