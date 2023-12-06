@@ -3,8 +3,8 @@
     padding: 0;
 }
 
-#registeration {
-    margin: 0 7.4%;
+body {
+    margin: 0 5%;
 }
 
 #title {
@@ -47,14 +47,14 @@
 #condition > tbody > tr > td > button {
     width: 3em;
     background-color: #414a5f;
-    color: white; 
+    color: #ffffff; 
     font-weight: 600;
     cursor: pointer;
 }
 
 .subjects_info {
-    margin: 2% auto;
-    max-width: 23em;
+    margin: 1% auto;
+    width: 234px;
 }
 
 .subjects {
@@ -68,23 +68,20 @@
     text-align: center;
 }
 .subjects > tbody > tr > .code {
-    width: 5em;
+    width: 4em;
 }
 .subjects > tbody > tr > .subject_name {
     text-align: left;
 }
 .subjects > tbody > tr > .professor {
-    width: 5em;
+    width: 4em;
 }
 .subjects > tbody > tr > .credit {
-    width: 3em;
+    width: 2em;
 }
 .subjects > tbody > tr > .select {
-    width: 3em;
+    width: 2em;
 }
-.subjects > tbody > tr > td > button {
-    border: 1px solid #dddddd;
-    width: 100%;
-    background-color: #414a5f;
-    color: white;
+.subjects > tbody > tr > .select > button {
+
 }

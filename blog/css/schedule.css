@@ -3,8 +3,8 @@
     padding: 0;
 }
 
-#schedule {
-    margin: 0 7.4%;
+body {
+    margin: 0 5%;
 }
 
 #title {
@@ -51,14 +51,14 @@
 #condition > tbody > tr > td > button {
     width: 3em;
     background-color: #414a5f;
-    color: white; 
+    color: #ffffff; 
     font-weight: 600;
     cursor: pointer;
 }
 
 #schedule_info {
     margin: 2% auto;
-    max-width: 23em;
+    width: 280px;
 }
 
 #time_table {
