@@ -10,7 +10,7 @@
     
     $sno = $_SESSION['sno'];
     
-    #시간표 페이지에 처음 들어오거나 수강신청을 하고 오면 마지막으로 수강한 학년와 학기가 선택 및 조회
+    #시간표 페이지에 처음 들어오면 마지막으로 수강한 학년와 학기가 선택 및 조회
     if (!isset($_SESSION['grade']) && !isset($_SESSION['semester'])) {
         #학생이 마지막으로 수강한 학년
         $sql = "SELECT max(grade)
@@ -20,7 +20,7 @@
         $result = mysqli_query($connect, $sql);
         $latestGrade = mysqli_fetch_assoc($result)['max_grade'];
 
-        $grade = (int)$latestGrade;
+        $grade = $latestGrade;
     
         #학생이 마지막으로 수강한 학기
         $sql = "SELECT max(semester)
@@ -32,11 +32,12 @@
         $latestSemesters = mysqli_fetch_assoc($result);
         $latestSemester = $latestSemesters['max_semester'];
 
-        $semester = (int)$latestSemester;
+        $semester = $latestSemester;
     }
+    #조회한 학년과 학기를 저장, 수강신청을 하고 왔다면 수강신청한 학년과 학기를 저장
     else {
-        $grade = (int)$_SESSION['grade'];
-        $semester = (int)$_SESSION['semester'];
+        $grade = $_SESSION['grade'];
+        $semester = $_SESSION['semester'];
     }
 ?>
 
@@ -54,12 +55,12 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="main.php" class="nav-link px-2 link-secondary">Home</a></li>
             <li><a href="#" class="nav-link px-2">교육과정</a></li>
             <li><a href="#" class="nav-link px-2">성적관리</a></li>
             <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
             <li><a href="registeration.php" class="nav-link px-2">수강신청</a></li>
-            <li><a href="Borad.html" class="nav-link px-2">게시판</a></li>
+            <li><a href="Board.php" class="nav-link px-2">게시판</a></li>
             </ul>
             
             <!--로그인을 하면 로그아웃 출력
@@ -142,26 +143,89 @@
                     <th>금</th>
                 </tr>
                 <?php
-                    for ($i = 1; $i <= 14; $i++) {
+                    $scheduleArr = array_fill(0, 5, array_fill(0, 14, NULL));
+                
+                    #과목별로 배경색을 저장하기 위한 배열과 인덱스
+                    $colors = array('#E76F51', '#F4A261', '#E9C46A', '#A7C957', '#94D2BD', '#2A9D8F', '#E9D8A6');
+                    $scheduleColorArr = array();
+                    $colorsIdx = 0;
+
+                    #과목 배경색 지정을 랜덤하게 변경 (그냥 재미있을거 같아서 한번 넣어봄)
+                    shuffle($colors);
+
+                    #선택된 학년과 학기에 수강한 수업들의 과목코드, 수업하는 요일과 교시
+                    $sql = "SELECT schedule_tbl.code, schedule_tbl.day, schedule_tbl.period
+                    FROM schedule_tbl, classes_tbl
+                    WHERE schedule_tbl.code = classes_tbl.code
+                    AND classes_tbl.sno = $sno
+                    AND classes_tbl.grade = $grade
+                    AND classes_tbl.semester = $semester";
+                    $result = mysqli_query($connect, $sql);
+
+                    #과목코드와 과목의 수업시간을 교시마다 저장
+                    while ($schedules = mysqli_fetch_assoc($result)) {
+                        $day = $schedules['day'];
+                        $period = $schedules['period'];
+                        $code = $schedules['code'];
+
+                        $scheduleArr[$day-1][$period-1] = $code;
+
+                        #과목마다 배경색을 저장
+                        if (!$scheduleColorArr[$code]) {
+                            $scheduleColorArr[$code] = $colors[$colorsIdx++];
+                        }
+                    }
+
+                    #시간표 출력
+                    for ($i = 0; $i < 14; $i++) {
                         echo "<tr>";
+
                         #9:00 → 09:00
-                        $zero = (($i+8) < 10) ? '0' : '';
-                        echo "<td align='center'>".$i."교시<br>(".$zero.($i+8).":00~".($i+8).":50)</td>";
-                        for ($j = 1; $j <= 5; $j++) {
+                        $zero = (($i+9) < 10) ? '0' : '';
+                        
+                        echo "<td align='center'>".($i+1)."교시<br>(".$zero.($i+9).":00~".($i+9).":50)</td>";
+
+                        for ($j = 0; $j < 5; $j++) {
+                            #연강 수업의 첫번째 시간의 <td>에 rowspan을 했으므로 무시
+                            if ($scheduleArr[$j][$i] === "consecutive") {
+                                continue;
+                            }
+                            #수업이 없는 시간이면 빈 <td>
+                            if ($scheduleArr[$j][$i] === NULL) {
+                                echo '<td></td>';
+                                continue;
+                            }
+                            
+                            #연강 수업이면 수업의 두번째 시간부터는 과목코드가 아닌 "consecutive"를 저장
+                            $row = 1;
+                            while ($scheduleArr[$j][$i] !== NULL) {
+                                if ($scheduleArr[$j][$i] === $scheduleArr[$j][$i+$row]) {
+                                    $scheduleArr[$j][$i+$row] = "consecutive";
+                                    $row++;
+                                }
+                                else {
+                                    break;
+                                }
+                            }
+                            
+                            $code = $scheduleArr[$j][$i];
+                            $day = $j + 1;
+                            $period = $i + 1;
+
+                            #수업의 과목이름, 교수명, 교실위치
                             $sql = "SELECT subject_tbl.subject_name, subject_tbl.professor, schedule_tbl.room
-                            FROM subject_tbl, classes_tbl, schedule_tbl
-                            WHERE subject_tbl.code = classes_tbl.code
-                            AND classes_tbl.sno = $sno
-                            AND classes_tbl.grade = $grade
-                            AND classes_tbl.semester = $semester
-                            AND classes_tbl.code = schedule_tbl.code
-                            AND schedule_tbl.day = $j
-                            AND schedule_tbl.period = $i";
+                            FROM subject_tbl, schedule_tbl
+                            WHERE subject_tbl.code = schedule_tbl.code
+                            AND schedule_tbl.code = $code
+                            AND schedule_tbl.day = $day
+                            AND schedule_tbl.period = $period";
                             $result = mysqli_query($connect, $sql);
                             $subject = mysqli_fetch_assoc($result);
-                            echo "<td>".$subject['subject_name']."<br>".$subject['professor']."<br>".$subject['room']."</td>";
+
+                            #수업 정보를 표시, 연강 수업이라면 연강시간 만큼 rowspan
+                            echo '<td rowspan="'.$row.'" style="background-color: '.$scheduleColorArr[$code].'">'.$subject['subject_name'].'<br>'.$subject['professor'].'<br>'.$subject['room'].'</td>';
                         }
-                        echo "</tr>";
+                        echo '</tr>';
                     }
                 ?>
             </tbody>
@@ -188,7 +252,4 @@
     if(is_resource($connect)) {
         mysqli_close($connect);
     }
-    #시간표 페이지에 처음 들어오거나 수강신청을 하고 오면 마지막으로 수강한 학년와 학기가 선택 및 조회 (2)
-    $_SESSION['grade'] = NULL;
-    $_SESSION['semester'] = NULL;
 ?>

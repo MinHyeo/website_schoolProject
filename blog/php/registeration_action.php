@@ -50,6 +50,10 @@
         }
 
         $_POST['register'] = NULL;
+
+        #방금 신청한 학년과 학기가 시간표 조회 페이지에 자동으로 선택
+        $_SESSION['grade'] = $grade;
+        $_SESSION['semester'] = $semester;
     }
     
     echo "<script>window.history.back()</script>";
