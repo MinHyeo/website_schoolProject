@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-#registeration {
+#schedule {
     margin: 0 7.4%;
 }
 
@@ -43,6 +43,9 @@
     width: 96%;
     cursor: not-allowed;
 }
+#condition > tbody > tr > td > select {
+    width: 100%;
+}
 #condition > tbody > tr > td > button {
     width: 3em;
     background-color: #414a5f;
@@ -51,38 +54,38 @@
     cursor: pointer;
 }
 
-.subjects_info {
+#schedule_info {
     margin: 2% auto;
-    width: 312px;
+    width: 282px;
 }
 
-.subjects {
+#time_table {
+    margin: 0 auto 2% auto;
     border-collapse: collapse;
-    width: 100%;
+    width: 600px;
+    height: 100%;
 }
-.subjects > tbody > tr > * {
-    border: 1px solid #dddddd;
+#time_table > tbody > tr > * {
+    border: 1px solid black;
     padding: 4px;
+    height: 82px;
+}
+#time_table > tbody > tr:nth-child(1) > th {
+    height: 56px;
+    background-color: darkgray;
     text-align: center;
 }
-.subjects > tbody > tr > .code {
-    width: 5em;
+#time_table > tbody > tr > td:nth-child(1) {
+    background-color: darkgray;
 }
-.subjects > tbody > tr > .subject_name {
-    text-align: left;
+#time_table > tbody > tr > th:nth-child(1) {
+    width: 16%;
 }
-.subjects > tbody > tr > .professor {
-    width: 5em;
+#time_table > tbody > tr > th:nth-child(n+2) {
+    width: 16%;
 }
-.subjects > tbody > tr > .credit {
-    width: 3em;
-}
-.subjects > tbody > tr > .select {
-    width: 3em;
-}
-.subjects > tbody > tr > td > button {
-    border: 1px solid #dddddd;
-    width: 100%;
-    background-color: #414a5f;
-    color: white;
+#time_table > tbody > tr:nth-child(n+2) > td:nth-child(n+2) {
+    vertical-align : top;
+    font-size: 12px;
+    font-weight: 400;
 }

@@ -9,35 +9,18 @@
     }
     
     $sno = $_SESSION['sno'];
+    $grade = $_SESSION['grade'];
+    $semester = $_SESSION['semester'];
     
-    #시간표 페이지에 처음 들어오면 마지막으로 수강한 학년와 학기가 선택 및 조회
-    if (!isset($_SESSION['grade']) && !isset($_SESSION['semester'])) {
-        #학생이 마지막으로 수강한 학년
-        $sql = "SELECT max(grade)
-        AS max_grade
-        FROM classes_tbl
-        WHERE sno = $sno";
-        $result = mysqli_query($connect, $sql);
-        $latestGrade = mysqli_fetch_assoc($result)['max_grade'];
-
-        $grade = $latestGrade;
-    
-        #학생이 마지막으로 수강한 학기
-        $sql = "SELECT max(semester)
-        AS max_semester
-        FROM classes_tbl
-        WHERE sno = $sno
-        AND grade = $latestGrade";
-        $result = mysqli_query($connect, $sql);
-        $latestSemesters = mysqli_fetch_assoc($result);
-        $latestSemester = $latestSemesters['max_semester'];
-
-        $semester = $latestSemester;
+    #시간표 페이지에 처음 들어오면 현재 학년와 학기가 선택
+    if (!isset($_SESSION['scheduleGrade']) && !isset($_SESSION['scheduleSemester'])) {
+        $scheduleGrade = $grade;
+        $scheduleSemester = $semester;
     }
     #조회한 학년과 학기를 저장, 수강신청을 하고 왔다면 수강신청한 학년과 학기를 저장
     else {
-        $grade = $_SESSION['grade'];
-        $semester = $_SESSION['semester'];
+        $scheduleGrade = $_SESSION['scheduleGrade'];
+        $scheduleSemester = $_SESSION['scheduleSemester'];
     }
 ?>
 
@@ -53,89 +36,102 @@
         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             <div class="col-md-3 mb-2 mb-md-0">
             </div>
-
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="main.php" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2">교육과정</a></li>
-            <li><a href="#" class="nav-link px-2">성적관리</a></li>
-            <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
-            <li><a href="registeration.php" class="nav-link px-2">수강신청</a></li>
-            <li><a href="Board.php" class="nav-link px-2">게시판</a></li>
+                <li><a href="main.php" class="nav-link px-2">Home</a></li>
+                <li><a href="Curriculum.php" class="nav-link px-2">교육과정</a></li>
+                <li><a href="grade.php" class="nav-link px-2">성적관리</a></li>
+                <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
+                <li><a href="register.php" class="nav-link px-2">수강신청</a></li>
+                <li><a href="Board.php" class="nav-link px-2">게시판</a></li>
             </ul>
             
             <!--로그인을 하면 로그아웃 출력
                 로그인이 안되어 있으면 로그인과 회원가입 출력-->
             <?php
-            if ( $jb_login ) {
-                echo '<div col-md-3 text_end>
-                <span>환영합니다 </span><B>'.$_SESSION['name'].'</B><span>님<span>
-                <button type="button" class="btn btn-primary" onclick="location.href=\'php/logout.php\'">Logout</button>
-                </div>';
-                } else {
-                echo '<div class="col-md-3 text-end">
-                <button type="button" class="btn btn-outline-primary me-2" onclick="location.href=\'../blog/SignIn.html\'">Login</button>
-                <button type="button" class="btn btn-primary" onclick="location.href=\'SignUp.html\'">Sign-up</button>
-                </div>';
+                if ($jb_login) {
+                    echo '<div col-md-3 text_end>
+                    환영합니다 <B>'.$_SESSION['name'].'</B>님
+                    <button type="button" class="btn btn-primary" onclick="location.href=\'php/logout.php\'">Logout</button>
+                    </div>';
+                }
+                else {
+                    echo '<div class="col-md-3 text-end">
+                    <button type="button" class="btn btn-outline-primary me-2" onclick="location.href=\'../blog/SignIn.html\'">Login</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href=\'SignUp.html\'">Sign-up</button>
+                    </div>';
                 }
             ?>
         </header>
-    </div>  
+    </div>
 
-    <div id=schedule>
-        <div id="title"><h3>개인시간표 조회</h3></div>
+    <div id="schedule">
+        <div id="title">
+            <h3>개인시간표 조회</h3>
+        </div>
         <form method=post action="php/schedule_action.php">
             <table id="condition">
                 <tbody>
                     <tr>
-                        <th><label for="student_code">학번</label></th>
+                        <th>
+                            <label for="student_code">학번</label>
+                        </th>
                         <?php
-                            echo "<td><input type=\"number\" name=\"student_code\" value=\"$sno\" disabled=\"disabled\"></td>";
+                            echo '<td>
+                            <input type="number" name="student_code" value='.$sno.' disabled>
+                            </td>';
                         ?>
-                        <th><label for="grade">학년</label></th>
+                        <th>
+                            <label for="scheduleGrade">학년</label>
+                        </th>
                         <td>
-                            <select name="grade">
+                            <select name="scheduleGrade">
                                 <?php
                                     #학생이 수강한 학년들
-                                    $sql = "select grade
-                                    from classes_tbl
-                                    where sno = $sno
-                                    group by grade";
+                                    $sql = "SELECT subject_tbl.grade
+                                    FROM subject_tbl, classes_tbl
+                                    WHERE classes_tbl.sno = $sno
+                                    AND classes_tbl.code = subject_tbl.code
+                                    GROUP BY grade";
                                     $result = mysqli_query($connect, $sql);
                                     #학생이 수강한 학년들을 <option>에 나열
-                                    while ($grades = mysqli_fetch_assoc($result)) {
+                                    while ($gradeData = mysqli_fetch_assoc($result)) {
                                         #마지막으로 조회한 옵션이 선택되어있음
-                                        $selected = ($grade == (int)$grades['grade']) ? 'selected' : '';
-                                        echo "<option $selected>".($grades['grade'])."</option>";
+                                        $selected = ($scheduleGrade == $gradeData['grade']) ? 'selected' : '';
+                                        echo '<option '.$selected.'>'.$gradeData['grade'].'</option>';
                                     }
                                 ?>
                             </select>
                         </td>
-                        <th><label for="semester">학기</label></th>
+                        <th>
+                            <label for="scheduleSemester">학기</label>
+                        </th>
                         <td>
-                            <select name="semester">
+                            <select name="scheduleSemester">
                                 <?php
                                     #마지막으로 조회한 옵션이 선택되어있음
                                     for ($i = 1; $i <= 2; $i++) {
-                                        $selected = ($semester == $i) ? 'selected' : '';
-                                        echo "<option $selected>$i</option>";
+                                        $selected = ($scheduleSemester == $i) ? 'selected' : '';
+                                        echo '<option '.$selected.'>'.$i.'</option>';
                                     }
                                 ?>
                             </select>
                         </td>
-                        <td><button type="submit">조회</button></td>
+                        <td>
+                            <button type="submit">조회</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </form>
         <div id="schedule_info">
             <?php
-                echo "<h2>{$grade}학년 {$semester}학기 시간표</h2>"
+                echo '<h2>'.$scheduleGrade.'학년 '.$scheduleSemester.'학기 시간표</h2>';
             ?>
         </div>
         <table id="time_table">
             <tbody>
                 <tr>
-                    <th>구&nbsp&nbsp&nbsp&nbsp분</th>
+                    <th></th>
                     <th>월</th>
                     <th>화</th>
                     <th>수</th>
@@ -155,18 +151,19 @@
 
                     #선택된 학년과 학기에 수강한 수업들의 과목코드, 수업하는 요일과 교시
                     $sql = "SELECT schedule_tbl.code, schedule_tbl.day, schedule_tbl.period
-                    FROM schedule_tbl, classes_tbl
+                    FROM schedule_tbl, classes_tbl, subject_tbl
                     WHERE schedule_tbl.code = classes_tbl.code
                     AND classes_tbl.sno = $sno
-                    AND classes_tbl.grade = $grade
-                    AND classes_tbl.semester = $semester";
+                    AND subject_tbl.code = classes_tbl.code
+                    AND subject_tbl.grade = $scheduleGrade
+                    AND subject_tbl.semester = $scheduleSemester";
                     $result = mysqli_query($connect, $sql);
 
                     #과목코드와 과목의 수업시간을 교시마다 저장
-                    while ($schedules = mysqli_fetch_assoc($result)) {
-                        $day = $schedules['day'];
-                        $period = $schedules['period'];
-                        $code = $schedules['code'];
+                    while ($scheduleData = mysqli_fetch_assoc($result)) {
+                        $day = $scheduleData['day'];
+                        $period = $scheduleData['period'];
+                        $code = $scheduleData['code'];
 
                         $scheduleArr[$day-1][$period-1] = $code;
 
@@ -178,12 +175,12 @@
 
                     #시간표 출력
                     for ($i = 0; $i < 14; $i++) {
-                        echo "<tr>";
+                        echo '<tr>';
 
                         #9:00 → 09:00
                         $zero = (($i+9) < 10) ? '0' : '';
                         
-                        echo "<td align='center'>".($i+1)."교시<br>(".$zero.($i+9).":00~".($i+9).":50)</td>";
+                        echo '<td align="center">'.($i+1).'교시<br>('.$zero.($i+9).':00~'.$zero.($i+9).':50)</td>';
 
                         for ($j = 0; $j < 5; $j++) {
                             #연강 수업의 첫번째 시간의 <td>에 rowspan을 했으므로 무시
@@ -220,10 +217,10 @@
                             AND schedule_tbl.day = $day
                             AND schedule_tbl.period = $period";
                             $result = mysqli_query($connect, $sql);
-                            $subject = mysqli_fetch_assoc($result);
+                            $subjectData = mysqli_fetch_assoc($result);
 
                             #수업 정보를 표시, 연강 수업이라면 연강시간 만큼 rowspan
-                            echo '<td rowspan="'.$row.'" style="background-color: '.$scheduleColorArr[$code].'">'.$subject['subject_name'].'<br>'.$subject['professor'].'<br>'.$subject['room'].'</td>';
+                            echo '<td rowspan="'.$row.'" style="background-color: '.$scheduleColorArr[$code].'">'.$subjectData['subject_name'].'<br>'.$subjectData['professor'].'<br>'.$subjectData['room'].'</td>';
                         }
                         echo '</tr>';
                     }
@@ -233,23 +230,23 @@
     </div>
 
     <div class="container">
-    <footer class="py-3 my-4">
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="main.php" class="nav-link px-2 text-body-secondary">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">교육과정</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">성적관리</a></li>
-        <li class="nav-item"><a href="schedule.php" class="nav-link px-2 text-body-secondary">시간표조회</a></li>
-        <li class="nav-item"><a href="registeration.php" class="nav-link px-2 text-body-secondary">수강신청</a></li>
-        <li class="nav-item"><a href="Board.php" class="nav-link px-2 text-body-secondary">게시판</a></li>
-        </ul>
-        <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
-    </footer>
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="main.php" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="Curriculum.php" class="nav-link px-2 text-body-secondary">교육과정</a></li>
+            <li class="nav-item"><a href="grade.php" class="nav-link px-2 text-body-secondary">성적관리</a></li>
+            <li class="nav-item"><a href="schedule.php" class="nav-link px-2 text-body-secondary">시간표조회</a></li>
+            <li class="nav-item"><a href="register.php" class="nav-link px-2 text-body-secondary">수강신청</a></li>
+            <li class="nav-item"><a href="Board.php" class="nav-link px-2 text-body-secondary">게시판</a></li>
+            </ul>
+            <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
+        </footer>
     </div>
 </body>
 </html>
 
 <?php
-    if(is_resource($connect)) {
+    if (is_resource($connect)) {
         mysqli_close($connect);
     }
 ?>

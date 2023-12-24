@@ -1,0 +1,51 @@
+#grade {
+    margin: 0 7.4%;
+}
+.button{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+    margin-right: 10%;
+}
+.button input {
+    padding: 10px 20px;
+    font-size: 16px;    
+}
+#title {
+    height: 40px;
+}
+h2 {
+    margin-bottom: 10px;
+}
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+tbody{
+    align-items: center;
+}
+th, td {
+    border: 1px solid black;
+    padding: 6px;
+    text-align: center;
+}
+
+table:nth-of-type(1) tbody tr:nth-child(1) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(10) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(19) {
+    background-color: #808080; 
+}
+table:nth-of-type(2) thead th:nth-child(1) {
+    background-color: #808080; 
+}
+table:nth-of-type(2) thead th:nth-child(3) {
+    background-color: #808080; 
+}

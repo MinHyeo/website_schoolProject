@@ -2,35 +2,11 @@
     #DB접속
     include 'ConnectDB.php';
 
-    #student_tbl 생성하는 위치를 create_school_db.php 로 이동
-    /*
-    #테이블  존재여부 확인 후 없으면 생성
-    $sql = "SHOW TABLES LIKE 'student_tbl'";
-    $result = mysqli_query($connect, $sql);
-    if($result->num_rows > 0){
-        echo "테이블이 존재합니다<br>";
-    }
-    else {
-        echo "▲ 테이블이 존재하지 않습니다<br><br>";
-        $sql = "create table student_tbl(
-            SNO int primary key NOT NULL,
-            NAME varchar(20),
-            password varchar(15) )
-            default charset=utf8 ";
-        $result = mysqli_query($connect, $sql);
-        if($result){
-            echo "테이블 생성 완료 <hr>";
-        }
-        else{
-            echo "테이블 생성 실패 <hr>";
-            exit;
-        }
-    }
-    */
-
     #회원가입 정보 불러오기
     $sno = $_POST['sno'];
     $name = $_POST['name'];
+    $grade = $_POST['grade'];
+    $semester = $_POST['semester'];
     $password = $_POST['password'];
     $passwordCheck = $_POST['passwordCheck'];
 
@@ -77,16 +53,43 @@
     #만약 이상 없다면 회원가입
     #레코드 삽입
     $sql = "INSERT INTO student_tbl VALUES
-    ($sno, '$name', '응용소프트웨어공학과', '$password')";
-    mysqli_query($connect, $sql); 
+    ($sno, '$name', '응용소프트웨어공학과', $grade, $semester, '$password')";
+    mysqli_query($connect, $sql);
+    
+    
+    #학생의 학년, 학기 까지의 수업을 들은 것으로 함    
+    #1~4학년
+    for ($i = 1; $i <= 4; $i++) {
+        #1~2학기
+        for ($j = 1; $j <= 2; $j++) {
+            #$grade학년 $semester학기까지만 반복
+            if (($i > $grade) || ($i == $grade && $j > $semester)) break;
+
+            $sql = "SELECT code
+            FROM subject_tbl
+            WHERE grade = $i
+            AND semester = $j";
+            $result = mysqli_query($connect, $sql);
+
+            while ($subjectData = mysqli_fetch_assoc($result)) {
+                $code = $subjectData['code'];
+
+                $sql = "INSERT INTO classes_tbl VALUES
+                ($sno, $code)";
+                mysqli_query($connect, $sql);
+            }
+        }
+    }
 
     echo '<script type="text/javascript">';
     echo 'alert("정상적으로 회원가입 되었습니다.")';
     echo '</script>';
+    
+    if (is_resource($connect)) {
+        mysqli_close($connect);
+    }
 
     echo '<script type="text/javascript">';
     echo 'window.location.href = "../main.php"';
     echo '</script>';
-
-    mysqli_close($connect);
 ?>

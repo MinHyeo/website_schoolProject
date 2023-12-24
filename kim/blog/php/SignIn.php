@@ -36,16 +36,22 @@
         exit;
     }
 
-    $sql = "SELECT name FROM student_tbl WHERE sno=$sno";
+    $sql = "SELECT name, grade, semester FROM student_tbl WHERE sno=$sno";
     $result = mysqli_query($connect, $sql);
-    $name = mysqli_fetch_assoc($result)['name'];
+    $studentData = mysqli_fetch_assoc($result);
+    $name = $studentData['name'];
+    $grade = $studentData['grade'];
+    $semester = $studentData['semester'];
 
     $_SESSION['sno'] = $sno;
     $_SESSION['password'] = $password;
     $_SESSION['name'] = $name;
+    $_SESSION['grade'] = $grade;
+    $_SESSION['semester'] = $semester;
     
-    #2-1 까지의 수업을 수강한걸로 함
-    include 'insert_classes_tbl.php';
+    if (is_resource($connect)) {
+        mysqli_close($connect);
+    }
     
     echo "<script type=\"text/javascript\">";
     echo "window.location.href=\"../main.php\"";
