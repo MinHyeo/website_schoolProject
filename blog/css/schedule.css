@@ -62,7 +62,7 @@
 #time_table {
     margin: 0 auto 2% auto;
     border-collapse: collapse;
-    width: 800px;
+    width: 600px;
     height: 100%;
 }
 #time_table > tbody > tr > * {
@@ -71,6 +71,7 @@
     height: 82px;
 }
 #time_table > tbody > tr:nth-child(1) > th {
+    height: 56px;
     background-color: darkgray;
     text-align: center;
 }
@@ -78,7 +79,7 @@
     background-color: darkgray;
 }
 #time_table > tbody > tr > th:nth-child(1) {
-    width: 20%;
+    width: 16%;
 }
 #time_table > tbody > tr > th:nth-child(n+2) {
     width: 16%;

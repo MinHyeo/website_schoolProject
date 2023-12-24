@@ -69,10 +69,7 @@
     width: 5em;
 }
 .subjects > tbody > tr > .subject_name {
-    text-align: left;
-}
-.subjects > tbody > tr > .professor {
-    width: 5em;
+    width: 60em;
 }
 .subjects > tbody > tr > .credit {
     width: 3em;
