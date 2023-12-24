@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8">
+    <title>로그인</title>
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/sign.css" rel="stylesheet">
+  </head>
+
+  <body class="d-flex align-items-center py-4 bg-body-tertiary">
+      <main class="form-sign w-100 m-auto">
+        <form method="post" action="php/SignIn.php">
+          <div class="form-name">
+            <a href="main.php"><img src="../image/DONGEUL_LOG.png" alt="동의대 이미지"></a>
+            <hr><br>
+            <h3 class="h3 mb-3 fw-normal">로그인</h3>
+          </div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="00000000" name="sno">
+            <label for="floatingInput">학번</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingInput" placeholder="PassWord" name="password">
+            <label for="floatingPassword">비밀번호</label>
+          </div>
+          <button class="btn btn-primary w-100 py-2" type="submit">로그인</button>
+        </form>
+      </main>
+    </body>
+</html>
