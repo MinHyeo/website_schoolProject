@@ -41,10 +41,10 @@
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li><a href="main.php" class="nav-link px-2 link-secondary">Home</a></li>
-        <li><a href="#" class="nav-link px-2">교육과정</a></li>
-        <li><a href="#" class="nav-link px-2">성적관리</a></li>
+        <li><a href="Curriculum.php" class="nav-link px-2">교육과정</a></li>
+        <li><a href="grade.php" class="nav-link px-2">성적관리</a></li>
         <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
-        <li><a href="registeration.php" class="nav-link px-2">수강신청</a></li>
+        <li><a href="register.php" class="nav-link px-2">수강신청</a></li>
         <li><a href="Board.php" class="nav-link px-2">게시판</a></li>
         </ul>
         
@@ -74,8 +74,34 @@
                 <hr>
             </div>
             <div>
+                
                 <!--데이터베이스에서 게시판 내용 불러서 페이지에 출력-->
                 <?PHP
+                    #테이블 존재 확인
+                    $sql = "SHOW TABLES LIKE 'board_tbl'";
+                    $result = mysqli_query($connect, $sql);
+                    if($result->num_rows > 0){
+                        #echo "테이블이 존재합니다<br>";
+                    }
+                    else {
+                        #echo "▲ 테이블이 존재하지 않습니다<br><br>";
+                        $sql = "create table board_tbl(
+                            NUM int,
+                            NAME varchar(20),
+                            TITLE varchar(200),
+                            CONTENT varchar(1000),
+                            DATE datetime)
+                            default charset=utf8 ";
+                        $result = mysqli_query($connect, $sql);
+                        if($result){
+                            #echo "테이블 생성 완료 <hr>";
+                        }
+                        else{
+                            #echo "테이블 생성 실패 <hr>";
+                            exit;
+                        }
+                    }
+                    
                     echo '<table class="board-table">';
                     $sql = "select *from board_tbl ORDER BY DATE DESC";
                     $result = mysqli_query($connect, $sql);
@@ -115,10 +141,10 @@
         <footer class="py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
             <li><a href="main.php" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2">교육과정</a></li>
-            <li><a href="#" class="nav-link px-2">성적관리</a></li>
+            <li><a href="Curriculum.php" class="nav-link px-2">교육과정</a></li>
+            <li><a href="grade.php" class="nav-link px-2">성적관리</a></li>
             <li><a href="schedule.php" class="nav-link px-2">시간표조회</a></li>
-            <li><a href="registeration.php" class="nav-link px-2">수강신청</a></li>
+            <li><a href="register.php" class="nav-link px-2">수강신청</a></li>
             <li><a href="Board.php" class="nav-link px-2">게시판</a></li>
             </ul>
             <p class="text-center text-body-secondary">&copy; 2023 동의대 사이트 제작</p>
