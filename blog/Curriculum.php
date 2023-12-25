@@ -56,8 +56,8 @@
             <input type="submit" value="검색">
         </form>
     </div>
-    <div id="curri_table">
-        <table border="1">
+    <div id="table_position">
+        <table border="1" id="curri_table">
             <tr id="table_header">
                 <th colspan="2">학년/학기</th>
                 <td>교과목 번호</td>
@@ -91,9 +91,9 @@
                     $row = mysqli_fetch_assoc($result);
 
                     echo "<tr>";
-                    echo "<td rowspan='14'>" . $row['grade'] . "학년</td>";
+                    echo "<td rowspan='14' id='table_grade'>" . $row['grade'] . "학년</td>";
                     for($i = 1; $i < 3; $i++){
-                        echo "<td rowspan='7'>" .$i."학기</td>";
+                        echo "<td rowspan='7' id='table_semester'>" .$i."학기</td>";
                         while($row){
                             if($row['grade'] == $selectedGrade && $row['semester'] == $i){
                                 echo "<td>" . $row['code'] . "</td>";

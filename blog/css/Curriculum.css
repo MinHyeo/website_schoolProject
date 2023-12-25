@@ -9,13 +9,25 @@
     border-collapse: collapse;
     width: 108px;
     height: 25px;
+    border-radius: 5px;
 }
 
-#curri_table{
+#table_position{
     margin: 10px 115px;
+}
+#curri_table{
+    border-radius: 5px;
 }
 #table_header{
     height: 60px;
     background-color: #46af65;
     font-weight: 600;
+}
+#table_grade{
+    background-color: #a1c0aa;
+    border-radius: 5px;
+}
+#table_semester{
+    background-color: #d7eaec;
+    border-radius: 5px;
 }
