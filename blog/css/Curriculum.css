@@ -1,0 +1,21 @@
+#title {
+    height: 40px;
+    border-bottom: 1px solid #5381d6;
+}
+
+#grade_selecter{
+    margin: 10px 0;
+    border: 3px solid #16c952;
+    border-collapse: collapse;
+    width: 108px;
+    height: 25px;
+}
+
+#curri_table{
+    margin: 10px 115px;
+}
+#table_header{
+    height: 60px;
+    background-color: #46af65;
+    font-weight: 600;
+}
