@@ -33,7 +33,6 @@ th, td {
     padding: 6px;
     text-align: center;
 }
-
 table:nth-of-type(1) tbody tr:nth-child(1) {
     background-color: #808080; 
 }
@@ -41,6 +40,21 @@ table:nth-of-type(1) tbody tr:nth-child(10) {
     background-color: #808080; 
 }
 table:nth-of-type(1) tbody tr:nth-child(19) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(28) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(37) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(46) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(55) {
+    background-color: #808080; 
+}
+table:nth-of-type(1) tbody tr:nth-child(64) {
     background-color: #808080; 
 }
 table:nth-of-type(2) thead th:nth-child(1) {
