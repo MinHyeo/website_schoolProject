@@ -21,7 +21,7 @@
         professor VARCHAR(20),
         credit float,
         time int,
-        year int,
+        grade int,
         semester int)
         default charset=utf8";
 
